@@ -30,23 +30,23 @@ end
 
 -- MAIN FUNCTIONS
 
--- else ----------------
+-- other ----------------
 
 function execute(command)
-    local myfile = io.output("mnt/sdcard/exec.temp")
-    myfile:write(command)
-    myfile:close()
-    dofile("mnt/sdcard/exec.temp")
-    os.remove("mnt/sdcard/exec.temp")
+    local func = load(command); return func()
 end
 
-function import(fileOrPath)
+function output(command)
+    return io.popen(command):read("*a")
+end
+
+--function import(fileOrPath)
     if fileOrPath:find("/") then
         dofile(fileOrPath)
     else
         require(fileOrPath)
     end
-end
+end]]
 
 function wait(seconds)
     seconds = isNum(seconds)
@@ -79,7 +79,7 @@ function reverse(val)
 end
 -- reverse(9) --> -9, reverse("abc") --> "cba", reverse(not true) --> true
 
-function randomText(len, reverse, noSpace)
+function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters)
     math.randomseed(os.time())
     local text = ""
     for i = 1, len do
@@ -89,14 +89,22 @@ function randomText(len, reverse, noSpace)
     if noSpace then
         text:gsub(" ", "")
     end
+    if noSymbols then
+        for i = 33, 47 do
+            local sym = string.char(i)
+            if i == 37 then
+                sym = "%%"
+                --elseif i ==
+            end
+            text:gsub(sym, "")
+        end
+
+    end
+    if noNumbers then
+
+    end
+    if noLetters then
+
+    end
     return text
 end
-
-function loadstring(link, bool) 
-    local a = io.popen("curl -s -k "..link):read("*a")
-    if bool then execute(a) return end
-    return a
-end
--- print(loadstring("https://raw.githubusercontent.com/hh2734/Lua/Scripts/Lua/Test.lua", true)) --> This is test .lua file!
-
-
