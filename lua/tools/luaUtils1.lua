@@ -1,20 +1,20 @@
 -- Me (author)
-local author = "hh2734#9061"
+local author = "hh2734#9061" -- ☆☆☆☆☆
 
--- LOCALS
+-- LOCALS (no one now)
 
 
 
 -- LOCAL FUNCTIONS
 
-local function Error(type)
+local function Error(type) -- ☆☆
     local msg = "luaUtils1's error, "
     if type == 1 then print(msg.."data is not a number")
     elseif type == 2 then print(msg.."test")
     end
 end
 
-local function isNum(num)
+local function isNum(num) -- ☆☆☆
     if num == nil then return 0 end
     if type(num) ~= "number" then
         if type(tonumber(num)) == "number" then
@@ -32,23 +32,15 @@ end
 
 -- other ----------------
 
-function execute(command)
+function execute(command) -- ☆☆☆
     local func = load(command); return func()
 end
 
-function output(command)
+function output(command) -- ☆☆☆
     return io.popen(command):read("*a")
 end
 
---function import(fileOrPath)
-    if fileOrPath:find("/") then
-        dofile(fileOrPath)
-    else
-        require(fileOrPath)
-    end
-end]]
-
-function wait(seconds)
+function wait(seconds) -- ☆☆☆☆
     seconds = isNum(seconds)
     local time = os.time() + seconds
     repeat until os.time() > time
@@ -57,7 +49,7 @@ end
 
 -- math ----------------
 
-function round(num)
+function round(num) -- ☆☆☆☆
     num = isNum(num)
     if num < 0 then
         return math.floor(num*-1 + 0.5)*-1
@@ -68,7 +60,7 @@ function round(num)
 end
 -- round(0.5) --> 1, round(-0.8) --> -1
 
-function reverse(val)
+function reverse(val) -- ☆☆☆☆
     if type(val) == "number" then
         return val*-1
     elseif type(val) == "string" then
@@ -79,7 +71,7 @@ function reverse(val)
 end
 -- reverse(9) --> -9, reverse("abc") --> "cba", reverse(not true) --> true
 
-function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters)
+function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters) -- ☆☆☆☆
     math.randomseed(os.time())
     local text = ""
     for i = 1, len do
@@ -89,6 +81,7 @@ function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters)
     if noSpace then
         text:gsub(" ", "")
     end
+    --[[ SOON ☆
     if noSymbols then
         for i = 33, 47 do
             local sym = string.char(i)
@@ -98,13 +91,6 @@ function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters)
             end
             text:gsub(sym, "")
         end
-
-    end
-    if noNumbers then
-
-    end
-    if noLetters then
-
-    end
+    end]]
     return text
 end
