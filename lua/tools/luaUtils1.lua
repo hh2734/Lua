@@ -1,27 +1,30 @@
 -- Me (author)
+
 local author = "hh2734#9061" -- ☆☆☆☆☆
 
--- LOCALS (no one now)
+-- LOCALS
 
+local utils = {}
 
 
 -- LOCAL FUNCTIONS
 
-local function Error(type) -- ☆☆
+local function Error(type, ...) -- ☆☆
     local msg = "luaUtils1's error, "
-    if type == 1 then print(msg.."data is not a number")
-    elseif type == 2 then print(msg.."test")
+    local args = {...}
+    if type == 1 then print(msg.."incorrect type: "..args[1])
     end
 end
 
 local function isNum(num) -- ☆☆☆
-    if num == nil then return 0 end
+    if num == nil then Error(1,"nil") return 0 end
     if type(num) ~= "number" then
         if type(tonumber(num)) == "number" then
-            return tonumber(num)
-        end
-        Error(1)
+            return tonumber(num)      
+        else
+        Error(1, type(num))
         return 0
+        end
     else
         return num
     end
@@ -30,26 +33,32 @@ end
 
 -- MAIN FUNCTIONS
 
--- other ----------------
-
-function execute(command) -- ☆☆☆
-    local func = load(command); return func()
+function utils.execute(code)
+    local func, err = load(code)
+    if not func then
+        return nil, err 
+    end 
+    local success, returnValue = pcall(func) 
+    if not success then
+        return nil, returnValue
+    end
+    return returnValue, true
 end
+-- safe execute function
 
-function output(command) -- ☆☆☆
+function utils.output(command) -- ☆☆☆
     return io.popen(command):read("*a")
 end
 
-function wait(seconds) -- ☆☆☆☆
+function utils.wait(seconds) -- ☆☆☆☆
     seconds = isNum(seconds)
+    if seconds <= 0 then return end
     local time = os.time() + seconds
-    repeat until os.time() > time
+    repeat until os.time() == time
 end
 -- wait(10) --> script stopped by 10 seconds
 
--- math ----------------
-
-function round(num) -- ☆☆☆☆
+function utils.round(num) -- ☆☆☆☆
     num = isNum(num)
     if num < 0 then
         return math.floor(num*-1 + 0.5)*-1
@@ -60,37 +69,48 @@ function round(num) -- ☆☆☆☆
 end
 -- round(0.5) --> 1, round(-0.8) --> -1
 
-function reverse(val) -- ☆☆☆☆
+function utils.reverse(val) -- ☆☆☆☆
     if type(val) == "number" then
         return val*-1
     elseif type(val) == "string" then
         return val:reverse()
     elseif type(val) == "boolean" then
         return not val
+    else
+        Error(1,type(val))
+        return 0
     end
 end
 -- reverse(9) --> -9, reverse("abc") --> "cba", reverse(not true) --> true
 
-function randomText(len, reverse, noSpace, noSymbols, noNumbers, noLetters) -- ☆☆☆☆
+function utils.randomText(len, noSpace, noSymbols, noNumbers, noLetters, reverse) -- ☆☆☆☆
     math.randomseed(os.time())
     local text = ""
     for i = 1, len do
         text = text..string.char(math.random(0x20,0x7E))
     end
-    if reverse then text:reverse() end
-    if noSpace then
-        text:gsub(" ", "")
-    end
-    --[[ SOON ☆
-    if noSymbols then
-        for i = 33, 47 do
-            local sym = string.char(i)
-            if i == 37 then
-                sym = "%%"
-                --elseif i ==
-            end
-            text:gsub(sym, "")
-        end
-    end]]
+    if reverse   then text = text:reverse()             end
+    if noSpace   then text = text:gsub("%s","") end
+    if noSymbols then text = text:gsub("%p","")  end
+    if noNumbers then text = text:gsub("%d","")  end
+    if noLetters then text = text:gsub("%a","")  end
     return text
 end
+
+function __GG()
+    for k, v in pairs(_G) do
+        if k ~= "_G" then
+            _G[k] = nil
+        end
+    end
+end
+
+function utils.clearOut()
+    for i = 1, 10000 do
+        io.write("\n")
+    end
+end
+print(utils.execute("prinhst()"))
+--print(utils.execute([[print(type(_G.utils.execute))]]))
+print(1)
+return utils
