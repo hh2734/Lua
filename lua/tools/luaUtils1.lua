@@ -18,7 +18,7 @@ end
 
 local function isNum(num) -- ☆☆☆
     if num == nil then Error(1,"nil") return 0 end
-    if tonumber(num) ~= "number" then
+    if tonumber(num) == nil then
         Error(1, type(num))
         return 0
     else
