@@ -9,22 +9,18 @@ local utils = {}
 
 -- LOCAL FUNCTIONS
 
-local function Error(type, ...) -- ☆☆
+local function Error(num, ...) -- ☆☆
     local msg = "luaUtils1's error, "
     local args = {...}
-    if type == 1 then print(msg.."incorrect type: "..args[1])
+    if num == 1 then print(msg.."incorrect type: "..args[1])
     end
 end
 
 local function isNum(num) -- ☆☆☆
     if num == nil then Error(1,"nil") return 0 end
-    if type(num) ~= "number" then
-        if type(tonumber(num)) == "number" then
-            return tonumber(num)      
-        else
+    if tonumber(num) ~= "number" then
         Error(1, type(num))
         return 0
-        end
     else
         return num
     end
