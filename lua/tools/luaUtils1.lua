@@ -110,7 +110,5 @@ function utils.clearOut()
         io.write("\n")
     end
 end
-print(utils.execute("prinhst()"))
---print(utils.execute([[print(type(_G.utils.execute))]]))
-print(1)
+
 return utils
