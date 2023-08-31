@@ -93,18 +93,4 @@ function utils.randomText(len, noSpace, noSymbols, noNumbers, noLetters, reverse
     return text
 end
 
-function __GG()
-    for k, v in pairs(_G) do
-        if k ~= "_G" then
-            _G[k] = nil
-        end
-    end
-end
-
-function utils.clearOut()
-    for i = 1, 10000 do
-        io.write("\n")
-    end
-end
-
 return utils
