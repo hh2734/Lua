@@ -85,8 +85,8 @@ function utils.randomText(len, noSpace, noSymbols, noNumbers, noLetters, reverse
     for i = 1, len do
         text = text..string.char(math.random(0x20,0x7E))
     end
-    if reverse   then text = text:reverse()             end
-    if noSpace   then text = text:gsub("%s","") end
+    if reverse   then text = text:reverse()      end
+    if noSpace   then text = text:gsub("%s","")  end
     if noSymbols then text = text:gsub("%p","")  end
     if noNumbers then text = text:gsub("%d","")  end
     if noLetters then text = text:gsub("%a","")  end
