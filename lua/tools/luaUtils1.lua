@@ -42,7 +42,7 @@ function utils.execute(code)
 end
 -- safe execute function
 
-function utils.output(command) -- ☆☆☆
+function utils.system(command) -- ☆☆☆
     return io.popen(command):read("*a")
 end
 
